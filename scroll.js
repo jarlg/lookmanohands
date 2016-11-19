@@ -1,6 +1,9 @@
 var scroll_down_flag = 0;
 var scroll_up_flag = 0;
 var start_time;
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 window.onload = function() {
 
     webgazer.setRegression('ridge') /* currently must set regression and tracker */
@@ -9,7 +12,7 @@ window.onload = function() {
 //            console.log($(window).innerHeight);
             if(data)
             {
-                if(data.y > .75* window.innerHeight)
+                if(data.y > .9*window.innerHeight)
                 {
                     if(!scroll_down_flag)
                     {
@@ -17,12 +20,53 @@ window.onload = function() {
                             scroll_up_flag = 0;
                         scroll_down_flag = 1;
                         console.log("set scroll down flag");
+
                         start_time = clock;
                     }
                     else if(clock-start_time >= 100) /*if beyond threshold for >= a second */
                     {
                         console.log("1 second passed; scrolling down");
-                        smoothScroll.animateScroll(window.scrollY + 10);
+                        console.log(window.scrollY);
+                        window.scrollBy(0, 4)
+                        console.log(window.scrollY);
+                    }
+                }
+                if(data.y > .8*window.innerHeight)
+                {
+                    if(!scroll_down_flag)
+                    {
+                        if(scroll_up_flag)    //Unset scroll up, eyes moved down
+                            scroll_up_flag = 0;
+                        scroll_down_flag = 1;
+                        console.log("set scroll down flag");
+
+                        start_time = clock;
+                    }
+                    else if(clock-start_time >= 100) /*if beyond threshold for >= a second */
+                    {
+                        console.log("1 second passed; scrolling down");
+                        console.log(window.scrollY);
+                        window.scrollBy(0, 2)
+                        console.log(window.scrollY);
+                    }
+                }
+                if(data.y > .7*window.innerHeight)
+                {
+                    if(!scroll_down_flag)
+                    {
+                        if(scroll_up_flag)    //Unset scroll up, eyes moved down
+                            scroll_up_flag = 0;
+                        scroll_down_flag = 1;
+                        console.log("set scroll down flag");
+
+                        start_time = clock;
+                    }
+                    else if(clock-start_time >= 100) /*if beyond threshold for >= a second */
+                    {
+                        console.log("1 second passed; scrolling down");
+                        console.log(window.scrollY);
+                        window.scrollBy(0, 1)
+                        console.log(window.scrollY);
                     }
                 }
                 else if(data.y < .25 * window.innerHeight)
