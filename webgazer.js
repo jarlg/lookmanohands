@@ -10545,9 +10545,9 @@ if (typeof exports !== 'undefined') {
         if (!navigator.getUserMedia) {
             alert("Unfortunately, your browser does not support access to the webcam through the getUserMedia API. Try to use Google Chrome, Mozilla Firefox, Opera, or Microsoft Edge instead.");
         }
-        if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost' && window.chrome){
-            alert("WebGazer works only over https. If you are doing local development you need to run a local server.");
-        }
+        // if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost' && window.chrome){
+        //     alert("WebGazer works only over https. If you are doing local development you need to run a local server.");
+        // }
 
         return webgazer;
     }

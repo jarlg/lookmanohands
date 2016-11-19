@@ -22,13 +22,24 @@
 
     // "icons": {},
 
+    "content_scripts": [{
+        "matches": ["<all_urls>"],
+        "js": ["content_script.js"],
+        "run_at": "document_start"
+    }],
+
     // this is the icon showed in upper right;
     // should toggle on/off the extension
     // we don't want a popup page, just an onclick eventhandler
     "browser_action": {
+<<<<<<< HEAD
         "default_icon": "graphics/IconClosedSmall.png",
         "default_title": "Look Ma! No hands!",
         "onClicked": "popup.js"
+=======
+        "default_icon": "graphics/IconSmall.png",
+        "default_title": "Look Ma! No hands!"
+>>>>>>> 0826a8110b3fce08cdf792253f411ea96235e614
     },
 
     "background": {
@@ -38,6 +49,7 @@
     "permissions": [
         "<all_urls>",
         "storage",
+        "tabs",
         "background",
         "videoCapture"
     ]

@@ -37,10 +37,9 @@ function toggle(obj){
 function initIcon(enabled) {
     // if the 'get' failed, e.g. if storage doesn't contain 'enabled
     // we just consider the app as enabled, and 
-    // console.log(enabled)
     if (chrome.runtime.lastError) {
         chrome.storage.local.set({"enabled":false});
-        // chrome.browserAction.setIcon({ path: "graphics/IconClosedSmall.png" });
+        chrome.browserAction.setIcon({ path: "graphics/IconClosedSmall.png" });
     }
     else {
         if (enabled) {
