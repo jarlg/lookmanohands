@@ -26,12 +26,19 @@
     // should toggle on/off the extension
     // we don't want a popup page, just an onclick eventhandler
     "browser_action": {
-        //"default_icon": "./thin32.png"
+        "default_icon": "graphics/IconSmall.png",
+        "default_title": "Look Ma! No hands!",
+        "onClicked": "popup.js"
+    },
+
+    "background": {
+        "scripts": [ "main.js" ]
     },
 
     "permissions": [
         "<all_urls>",
         "storage",
+        "background",
         "videoCapture"
     ]
 }
