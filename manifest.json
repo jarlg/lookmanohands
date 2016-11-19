@@ -25,7 +25,8 @@
     // this is the icon showed in upper right;
     // should toggle on/off the extension
     "browser_action": {
-        "default_icon": "graphics/IconSmall.png"
+        "default_icon": "graphics/IconSmall.png",
+        "default_title": "Look Ma! No hands!"
         //"default_icon": "./thin32.png"
     },
 
