@@ -1,0 +1,37 @@
+{
+    "manifest_version": 2,
+
+    // for webcamera support; requires package signing each time,
+    // so trying without
+    // "minimum_chrome_version": "21",
+
+    // "default_locale": "en",
+
+    "version": "0.0.1",
+    "name": "LookMaNoHands",
+    "description": "handsfree scrolling",
+
+    // OPTIONS such as
+    // - recalibrate
+    // - sensitivity, active regions
+    // currently has demo page for testing
+    "options_page": "demo.html",
+
+    // webgazer.js needs this to eval a string into javascript
+    "content_security_policy": "script-src 'self' 'unsafe-eval'",
+
+    // "icons": {},
+
+    // this is the icon showed in upper right;
+    // should toggle on/off the extension
+    "browser_action": {
+        "default_popup": "popup.html"
+        //"default_icon": "./thin32.png"
+    },
+
+    "permissions": [
+        "<all_urls>",
+        "storage",
+        "videoCapture"
+    ]
+}
