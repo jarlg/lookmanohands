@@ -1,1 +1,3 @@
-console.log("from within content_script");
+chrome.runtime.sendMessage({ method: "init" }, function(response) {
+    console.log(response);
+});

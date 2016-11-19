@@ -10443,15 +10443,50 @@ if (typeof exports !== 'undefined') {
     };
 
     /** loads the global data and passes it to the regression model 
-     * 
+     *  can be called with an object as callback for use with
+     *  chrome.storage
      */
-    function loadGlobalData() {
+    function loadGlobalData(obj) {
+      // intended usage
+      if (data == null) {
+	console.log("not loading data from chrome.storage.local");
         var storage = JSON.parse(window.localStorage.getItem(localstorageLabel)) || defaults;
-        settings = storage.settings;
-        data = storage.data;
-        for (var reg in regs) {
-            regs[reg].setData(storage.data);
-        }
+      }
+      // async callback for usage with chrome.storage
+      else if (chrome.runtime.lastError) {
+	var storage = defaults;
+      }
+      else {
+	console.log("loading data from chrome.storage.local");
+	console.log(obj);
+	var storage = obj["webgazerData"];
+      }
+
+      settings = storage.settings;
+      data = storage.data;
+      for (var reg in regs) {
+	  regs[reg].setData(storage.data);
+      }
+
+    }
+
+    /**
+     * save settings and data to chrome.storage
+     */
+    webgazer.saveAndQuit = function() {
+
+        paused = true;
+        //remove video element and canvas
+	document.body.removeChild(videoElement);
+	document.body.removeChild(videoElementCanvas);
+
+        var storage = {
+            'settings': settings,
+            'data': regs[0].getData() || data
+        };
+
+	chrome.storage.local.set({ "webgazerData" : storage });
+        return webgazer;
     }
    
    /**
@@ -10515,7 +10550,7 @@ if (typeof exports !== 'undefined') {
      * starts all state related to webgazer -> dataLoop, video collection, click listener
      */
     webgazer.begin = function() {
-        loadGlobalData();
+        chrome.storage.local.get("webgazerData", loadGlobalData);
 
         if (debugVideoLoc) {
             init(debugVideoLoc);
@@ -10594,8 +10629,8 @@ if (typeof exports !== 'undefined') {
         //loop may run an extra time and fail due to removed elements
         paused = true;
         //remove video element and canvas
-        document.body.removeChild(videoElement);
-        document.body.removeChild(videoElementCanvas);
+	document.body.removeChild(videoElement);
+	document.body.removeChild(videoElementCanvas);
 
         setGlobalData();
         return webgazer;

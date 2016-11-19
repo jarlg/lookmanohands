@@ -38,16 +38,16 @@ window.onload = function() {
 
         document.body.appendChild(overlay);
 
-        var cl = webgazer.getTracker().clm;
+        // var cl = webgazer.getTracker().clm;
 
-        function drawLoop() {
-            requestAnimFrame(drawLoop);
-            overlay.getContext('2d').clearRect(0,0,width,height);
-            if (cl.getCurrentPosition()) {
-                cl.draw(overlay);
-            }
-        }
-        drawLoop();
+        // function drawLoop() {
+        //     requestAnimFrame(drawLoop);
+        //     overlay.getContext('2d').clearRect(0,0,width,height);
+        //     if (cl.getCurrentPosition()) {
+        //         cl.draw(overlay);
+        //     }
+        // }
+        // drawLoop();
     };
 
     function checkIfReady() {
@@ -58,10 +58,16 @@ window.onload = function() {
         }
     }
     setTimeout(checkIfReady,100);
+
+    document.getElementById("stopcalibration").addEventListener("click", function(e) {
+        webgazer.saveAndQuit();
+    });
 };
 
 
+
+// totally fucked up
 window.onbeforeunload = function() {
-    //webgazer.end(); //Uncomment if you want to save the data even if you reload the page.
-    window.localStorage.clear(); //Comment out if you want to save data across different sessions 
+    // webgazer.end(); //Uncomment if you want to save the data even if you reload the page.
+    // window.localStorage.clear(); //Comment out if you want to save data across different sessions 
 };

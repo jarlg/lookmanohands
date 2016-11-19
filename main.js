@@ -3,11 +3,20 @@ console.log("testing.");
 chrome.runtime.onInstalled.addListener(install);
 chrome.runtime.onStartup.addListener(startup);     // run when chrome starts up
 
+chrome.runtime.onMessage.addListener(messageListener);
+
 function install() {
     console.log("Fresh install; setting storage defaults.");
     
     // set storage defaults
-    var defaults = { "enabled": 0 };
+    var defaults = {
+        "enabled": 0,
+        "webgazerData": {
+            "data": [],
+            "settings": {}
+        }
+    };
+
     chrome.storage.local.set(defaults);
 
     startup();
@@ -43,4 +52,15 @@ function initIcon(enabled) {
             chrome.browserAction.setIcon({ path: "graphics/IconClosedSmall.png" });
         }
     }
+}
+
+function messageListener(request, sender, callback) {
+    if (request.method == "init") {
+        chrome.storage.local.get("webgazerData", function(obj) {
+            callback(obj.webgazerData);
+        });
+    }
+
+    // return true for async responding
+    return true;
 }
