@@ -19,13 +19,13 @@ window.onload = function() {
                         console.log("set scroll down flag");
                         start_time = clock;
                     }
-                    else if(clock-start_time >= 1000) /*if beyond threshold for >= a second */
+                    else if(clock-start_time >= 100) /*if beyond threshold for >= a second */
                     {
-                        console.log("1 second passed; scrolling");
-                        window.scrollBy(0,100);
+                        console.log("1 second passed; scrolling down");
+                        smoothScroll.animateScroll(window.scrollY + 10);
                     }
                 }
-                else if(data.y > .25 * window.innerHeight)
+                else if(data.y < .25 * window.innerHeight)
                 {
                     if(!scroll_up_flag)
                     {
@@ -35,10 +35,10 @@ window.onload = function() {
                         console.log("set scroll up flag");
                         start_time = clock;
                     }
-                    else if(clock-start_time >=1000)
+                    else if(clock-start_time >=100)
                     {
                         console.log("1 second passed; scrolling up");
-                        window.scrollBy(0,-100);
+                        smoothScroll.animateScroll(window.scrollY - 10);
                     }
                 else{ //If look somewhere between thresholds, clear flags
                     if(scroll_down_flag | scroll_up_flag)
