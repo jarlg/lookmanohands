@@ -25,7 +25,7 @@
     // this is the icon showed in upper right;
     // should toggle on/off the extension
     "browser_action": {
-        "default_popup": "popup.html"
+        "default_icon": "graphics/IconSmall.png"
         //"default_icon": "./thin32.png"
     },
 
