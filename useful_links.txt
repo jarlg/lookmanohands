@@ -1,0 +1,1 @@
+http://stackoverflow.com/questions/2399389/detect-chrome-extension-first-run-update
