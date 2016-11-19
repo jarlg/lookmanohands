@@ -10,8 +10,16 @@ function clickHandler(enabled, state) {
     else {
         // toggle appState.enabled  on /off and update icon accordingly
         chrome.storage.local.set("enabled", !enabled);
-        
         console.log("toggled.")
         // set icon to enabled
+        if (enabled) {
+            console.log("ENABLED TRUE");
+            chrome.browserAction.setIcon({path:"graphics/Iconmall.png"});
+        } 
+        else {
+            console.log("ENBALED VFSLK");
+            chrome.browserAction.setIcon({path:"graphics/IconClosedSmall.png"});
+        }
+
     }
 }
