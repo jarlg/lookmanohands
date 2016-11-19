@@ -10443,23 +10443,17 @@ if (typeof exports !== 'undefined') {
     };
 
     /** loads the global data and passes it to the regression model 
-     *  can be called with an object as callback for use with
-     *  chrome.storage
+     *  can be called with an object as callback
      */
     function loadGlobalData(obj) {
       // intended usage
-      if (data == null) {
-	console.log("not loading data from chrome.storage.local");
+      if (obj == null) {
+	console.log("loading data from localstorage (or using defaults).");
         var storage = JSON.parse(window.localStorage.getItem(localstorageLabel)) || defaults;
       }
-      // async callback for usage with chrome.storage
-      else if (chrome.runtime.lastError) {
-	var storage = defaults;
-      }
       else {
-	console.log("loading data from chrome.storage.local");
-	console.log(obj);
-	var storage = obj["webgazerData"];
+	console.log("loading data from storage passed to begin()");
+	var storage = obj;
       }
 
       settings = storage.settings;
@@ -10485,7 +10479,7 @@ if (typeof exports !== 'undefined') {
             'data': regs[0].getData() || data
         };
 
-	chrome.storage.local.set({ "webgazerData" : storage });
+	chrome.runtime.sendMessage({ method: "storeWebgazeData", payload: storage });
         return webgazer;
     }
    
@@ -10549,8 +10543,11 @@ if (typeof exports !== 'undefined') {
     /**
      * starts all state related to webgazer -> dataLoop, video collection, click listener
      */
-    webgazer.begin = function() {
-        chrome.storage.local.get("webgazerData", loadGlobalData);
+    webgazer.begin = function(storage) {
+	console.log("called begin");
+	console.log(storage);
+
+	loadGlobalData(storage);
 
         if (debugVideoLoc) {
             init(debugVideoLoc);
@@ -10580,9 +10577,9 @@ if (typeof exports !== 'undefined') {
         if (!navigator.getUserMedia) {
             alert("Unfortunately, your browser does not support access to the webcam through the getUserMedia API. Try to use Google Chrome, Mozilla Firefox, Opera, or Microsoft Edge instead.");
         }
-        if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost' && window.chrome){
-            alert("WebGazer works only over https. If you are doing local development you need to run a local server.");
-        }
+        // if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost' && window.chrome){
+        //     alert("WebGazer works only over https. If you are doing local development you need to run a local server.");
+        // }
 
         return webgazer;
     }
@@ -10832,3 +10829,4 @@ if (typeof exports !== 'undefined') {
 }(window));
 ;
 
+window.webgazer = webgazer;
