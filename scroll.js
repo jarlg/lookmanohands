@@ -56,7 +56,8 @@ function start(webgazerData) {
                     else if(clock-start_time >=100)
                     {
                         console.log("1 second passed; scrolling up");
-                        window.scrollBy(0, -data.y/window.innerHeight*20);
+                         var x = window.innerHeight *0.25
+                        window.scrollBy(0, -(((window.innerHeight*0.25- data.y)/x)*10));
                     }
                 else{ //If look somewhere between thresholds, clear flags
                     if(scroll_down_flag | scroll_up_flag)
