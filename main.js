@@ -39,7 +39,9 @@ function install() {
         "webgazerData": {
             "data": [],
             "settings": {}
-        }
+        },
+        "speed": 1,
+        "sensitivity": 25
     };
 
     // use old values in storage
@@ -121,14 +123,33 @@ function messageListener(request, sender, callback) {
         console.log("saving webgazer data to chrome.storage from recalibration");
         chrome.storage.local.set({ "webgazerData": request.payload });
     }
-    else if (request.method == "initTab") {
-        chrome.storage.local.get("webgazerData", function(payload) {
-            console.log("sending data to tab");
-            callback(payload);
+    else if (request.method == "speedSetting") {
+            console.log("saving speed setting");
+            chrome.storage.local.set({"speed": request.payload });
+    }
+    else if (request.method == "sensitivitySetting") {
+            console.log("saving sensitivity setting");
+            chrome.storage.local.set({"sensitivity": request.payload});
+    }
+    else if (request.method == "getSpeedSetting"){
+            chrome.storage.local.get("speed", function(payload){
+                    console.log("sending speed setting");
+                    callback(payload);
         });
     }
+    else if (request.method == "getSensitivitySetting"){
+            chrome.storage.local.get("sensitivity", function(payload){
+                    console.log("sending sensitivity setting");
+                    callback(payload);
+        });
+    }
+    else if (request.method == "initTab") {
+        chrome.storage.local.get(null, function(payload) {
+                    callback(payload);
+                });
+    }
 
-    // return true for async responding
+    //return true for async responding
     return true;
 }
 

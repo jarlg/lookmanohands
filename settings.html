@@ -58,40 +58,35 @@
 
             <h2>Settings</h2>
             <div class="form-group row">
-                <label for="example-text-input" class="col-xs-2 col-form-label">Prediction Interval (ms):</label>
+                <label for="example-text-input" class="col-xs-2 col-form-label">Sensitivity</label>
                 <div class="col-xs-10">
-                    <input class="form-control" type="text" value="50" id="example-text-input">
+                    <input class="form-control" type="text" value="50" id="sensitivity">
                 </div>
-                <div style="text-indent: 15px;">* Smaller value means higher CPU usage</div>
+                <div style="text-indent: 15px;">Percentage of scrollable screen area</div>
             </div>
             <div class="form-group row">
-                <label for="example-text-input" class="col-xs-2 col-form-label">Setting 2:</label>
+                <label for="example-text-input" class="col-xs-2 col-form-label">Scrolling Speed</label>
                 <div class="col-xs-10">
-                    <input class="form-control" type="text" value="50" id="example-text-input">
+                    <input class="form-control" type="text" value="1" id="speed">
                 </div>
-                <div style="text-indent: 15px;">Extra text</div>
-            </div>
-            <div class="form-group row">
-                <label for="example-text-input" class="col-xs-2 col-form-label">Setting 3</label>
-                <div class="col-xs-10">
-                    <input class="form-control" type="text" value="50" id="example-text-input">
-                </div>
-                <div style="text-indent: 15px;">Extra text</div>
+                <div style="text-indent: 15px;">Weighting of scrolling speed</div>
             </div>
 
-            <button class="btn" contenteditable="false">Run Network Diagnostic</button>
+            <a class="btn btn-info" id="setSettings" >Submit</a>
         </div>
         <div class="span9"></div>
     </div>
 </div>
 
 
+
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="js/ie10-viewport-bug-workaround.js"></script>
+<script src="settings.js"></script>
 </body>
 </html>

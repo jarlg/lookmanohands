@@ -3,15 +3,18 @@ var scroll_up_flag = 0;
 var start_time;
 
 
+
 window.addEventListener("message", function(event) {
     if (event.source != window)
         return;
 
     if (event.data.type) {
-      if (event.data.type == "webgazerData") {
+      if (event.data.type == "setup") {
         console.log("loading webgazerData");
         console.log(event.data.payload);
-        start(event.data.payload);
+        start(event.data.payload.webgazerData);
+        var speed = event.data.payload.speed;
+        var sensitivity = event.data.payload.sensitivity;
       }
       else if (event.data.type == "deactivate") {
         console.log("got deactivate signal..");
@@ -47,7 +50,7 @@ function start(webgazerData) {
                         console.log("1 second passed; scrolling down");
                         console.log(window.scrollY);
                         var x = window.innerHeight *0.25
-                        window.scrollBy(0, (((data.y-window.innerHeight*0.75)/x)*10));
+                        window.scrollBy(0, speed * (((data.y-window.innerHeight*0.75)/x)*10));
                         console.log(((data.y-window.innerHeight*0.75)/x)*10);
                     }
                 }
@@ -65,7 +68,7 @@ function start(webgazerData) {
                     {
                         console.log("1 second passed; scrolling up");
                          var x = window.innerHeight *0.25
-                        window.scrollBy(0, -(((window.innerHeight*0.25- data.y)/x)*10));
+                        window.scrollBy(0, - speed * (((window.innerHeight*0.25- data.y)/x)*10));
                     }
                 else{ //If look somewhere between thresholds, clear flags
                     if(scroll_down_flag | scroll_up_flag)

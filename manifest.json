@@ -15,7 +15,7 @@
     // - recalibrate
     // - sensitivity, active regions
     // currently has demo page for testing
-    "options_page": "demo.html",
+    "options_page": "settings.html",
 
     // webgazer.js needs this to eval a string into javascript
     "content_security_policy": "script-src 'self' 'unsafe-eval'",
@@ -29,7 +29,7 @@
     //     "run_at": "document_start"
     // }],
 
-    "web_accessible_resources": ["webgazer.js", "scroll.js"],
+    "web_accessible_resources": ["webgazer.js", "scroll.js", "settings.js"],
 
     // this is the icon showed in upper right;
     // should toggle on/off the extension

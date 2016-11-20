@@ -25,7 +25,7 @@ s.onload = function() {
         t.parentNode.removeChild(t);
 
         chrome.runtime.sendMessage({ method: "initTab" }, function(payload) {
-            window.postMessage({ type: "webgazerData", payload: payload.webgazerData }, "*");
+            window.postMessage({ type: "setup", payload: payload }, "*");
         });
 
         chrome.runtime.onMessage.addListener(function(request, sender, callback) {
