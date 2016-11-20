@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+    <head>
+        <meta HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+        <title>Calibrate Look Ma, No Hands!</title>
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <script src="webgazer.js"></script>
+        <script src="js/jquery-3.1.1.min.js"></script>
+        <script src="demo.js"></script>
+
+        <style type="text/css">
+            body{
+                font-family: 'Lato', sans-serif;
+                background-image: url('img/bg.png');
+                background-size: cover;
+                background-repeat: no-repeat;
+                -webkit-background-size: cover; /* For WebKit*/
+                -moz-background-size: cover;    /* Mozilla*/
+                -o-background-size: cover;      /* Opera*/
+                background-size: cover;         /* Generic*/
+                color: #fff;
+                font-size: 120%;
+            }
+            div#welcome{
+                -moz-border-radius:10px;  /* for Firefox */
+                -webkit-border-radius:10px; /* for Webkit-Browsers */
+                border-radius:10px; /* regular */
+                background-color:rgba(0, 0, 0, 0.7);
+                width: 560px;
+                padding: 10px 30px;
+                margin: 60px auto;
+            }
+            .myButton {
+                -moz-box-shadow:inset 0px 10px 0px 0px #ffffff;
+                -webkit-box-shadow:inset 0px 10px 0px 0px #ffffff;
+                box-shadow:inset 0px 10px 0px 0px #ffffff;
+                background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6));
+                background:-moz-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+                background:-webkit-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+                background:-o-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+                background:-ms-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+                background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+                filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0);
+                background-color:#ffffff;
+                -moz-border-radius:11px;
+                -webkit-border-radius:11px;
+                border-radius:11px;
+                border:1px solid #dcdcdc;
+                display:inline-block;
+                cursor:pointer;
+                color:#666666;
+                font-family:Arial;
+                font-size:18px;
+                font-weight:bold;
+                padding:10px 24px;
+                text-decoration:none;
+                margin-top: -25px;
+            }
+            .myButton:hover {
+                background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f6f6f6), color-stop(1, #ffffff));
+                background:-moz-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+                background:-webkit-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+                background:-o-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+                background:-ms-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
+                background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+                filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#ffffff',GradientType=0);
+                background-color:#f6f6f6;
+            }
+            .myButton:active {
+                position:relative;
+                top:1px;
+            }
+            #hand{
+                width: 95px;
+                height: 125px;
+                background-image: url('img/click.svg');
+                background-color: #blue;
+                position: absolute;
+                top: 0px;
+                left: 50px;
+                visibility: hidden;
+                opacity: 0.0;
+            }
+            #handAssist{
+                position: relative;
+                left: -45px;
+                top: 129px;
+                height: 16px;
+                width: 190px;
+                background: #b7deed; /* Old browsers */
+                background: -moz-linear-gradient(top, #b7deed 0%, #71ceef 50%, #21b4e2 51%, #b7deed 100%); /* FF3.6-15 */
+                background: -webkit-linear-gradient(top, #b7deed 0%,#71ceef 50%,#21b4e2 51%,#b7deed 100%); /* Chrome10-25,Safari5.1-6 */
+                background: linear-gradient(to bottom, #b7deed 0%,#71ceef 50%,#21b4e2 51%,#b7deed 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b7deed', endColorstr='#b7deed',GradientType=0 ); /* IE6-9 */
+                border-radius: 10px;
+                font-family: 'Raleway', sans-serif;
+                padding: 4px 10px 6px 8px;
+                font-size: 16px;
+                color: black;
+                text-align: center;
+                color: #222;
+                font-weight: bold;
+                opacity: 0.9;
+            }
+            #stopcalibration{
+                display: none;
+
+            }
+
+        </style>
+    </head>
+    <body LANG="en-US" LINK="#0000ff" DIR="LTR">
+    <div id="welcome" style="text-align: center;">
+        <h1>Thank you for installing Look Ma, No Hands!</h1>
+        <h2>This Chrome extension lets you scroll on any web page with just your eyes.</h2>
+        <h3>Let's begin calibrating. Please look at the screen and click where the cursor appears.</h3>
+        <h4>Powered by the WebGazer API.</h4>
+        <br/>
+        <a id="link" href="http://www.google.com" class="myButton">Start Calibrating!</a>
+        <button id="stopcalibration" style="left: 400px" >stop calibrating</button>
+
+    </div>
+    <div id="hand">
+        <div id="handAssist">Click the top of the hand</div>
+    </div>
+
+    <script src="js/demoAnimations.js"></script>
+    </body>
+</html>
