@@ -20,7 +20,7 @@ s.onload = function() {
     s.parentNode.removeChild(s);
 
     (document.head||document.documentElement).appendChild(t);
-    
+
     t.onload = function() {
         t.parentNode.removeChild(t);
 

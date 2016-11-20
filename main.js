@@ -5,8 +5,12 @@ chrome.runtime.onMessage.addListener(messageListener);
 
 chrome.tabs.onActivated.addListener(function(activeInfo) {
     chrome.storage.local.get("active", function(obj) {
+
+        if (obj.active === undefined || obj.active === null)
+            return; 
+
         // if activeInfo.tabId is an active tab, we should reactivate
-        if (obj.active != null && obj.active.indexOf(activeInfo.tabId) >= 0) {
+        if (obj.active.indexOf(activeInfo.tabId) >= 0) {
             initTab();
         }
         else {
@@ -24,6 +28,9 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
 
 chrome.tabs.onUpdated.addListener(function(tabid, changeInfo, tab) {
     chrome.storage.local.get("active", function(obj) {
+        if (obj.active === undefined || obj.active === null)
+            return;
+
         // if current tab is active, when we follow a link we reinitialize
         if (obj.active.indexOf(tabid) >= 0) {
             initTab();
