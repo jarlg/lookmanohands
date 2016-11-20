@@ -8,6 +8,14 @@ t.src = chrome.extension.getURL('scroll.js');
 
 (document.head||document.documentElement).appendChild(s);
 
+window.addEventListener("message", function(event) {
+    console.log("got message.");
+    if (event.data.type == "storeWebgazerData") {
+        console.log("storing webgazer data..");
+        chrome.runtime.sendMessage({ method: "storeWebgazerData", payload: event.data.payload });
+    }
+});
+
 s.onload = function() {
     s.parentNode.removeChild(s);
 
@@ -19,5 +27,12 @@ s.onload = function() {
         chrome.runtime.sendMessage({ method: "initTab" }, function(payload) {
             window.postMessage({ type: "webgazerData", payload: payload.webgazerData }, "*");
         });
+
+        chrome.runtime.onMessage.addListener(function(request, sender, callback) {
+            if (request.type === "deactivate") {
+                window.postMessage({ type: "deactivate" }, "*");
+            }
+        });
+
     }
 };

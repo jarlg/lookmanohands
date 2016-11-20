@@ -10228,11 +10228,11 @@ if (typeof exports !== 'undefined') {
     gazeDot.style.zIndex = 99999;
     gazeDot.style.left = '-5px'; //'-999em';
     gazeDot.style.top  = '-5px';
-    gazeDot.style.width = '10px';
+    gazeDot.style.width = '100%';
     gazeDot.style.height = '10px';
     gazeDot.style.background = 'red';
     gazeDot.style.display = 'none';
-    gazeDot.style.borderRadius = '100%';
+    // gazeDot.style.borderRadius = '100%';
     gazeDot.style.opacity = '0.7';
 
     var debugVideoLoc = '';
@@ -10354,7 +10354,8 @@ if (typeof exports !== 'undefined') {
     /**
      * runs every available animation frame if webgazer is not paused
      */
-    var smoothingVals = new webgazer.util.DataWindow(4);
+    var smoothingVals = new webgazer.util.DataWindow(20);
+    console.log("created smoothingVals");
     function loop() {
         var gazeData = getPrediction();
         var elapsedTime = performance.now() - clockStart;
@@ -10371,7 +10372,7 @@ if (typeof exports !== 'undefined') {
                 y += smoothingVals.get(d).y;
             }
             var pred = webgazer.util.bound({'x':x/len, 'y':y/len});
-            gazeDot.style.transform = 'translate3d(' + pred.x + 'px,' + pred.y + 'px,0)';
+            gazeDot.style.transform = 'translate3d(0px,' + pred.y + 'px,0)';
         }
 
         if (!paused) {
@@ -10479,7 +10480,7 @@ if (typeof exports !== 'undefined') {
             'data': regs[0].getData() || data
         };
 
-	chrome.runtime.sendMessage({ method: "storeWebgazeData", payload: storage });
+	chrome.runtime.sendMessage({ method: "storeWebgazerData", payload: storage });
         return webgazer;
     }
    
@@ -10631,6 +10632,20 @@ if (typeof exports !== 'undefined') {
 
         setGlobalData();
         return webgazer;
+    }
+
+    webgazer.stop = function() {
+      paused = true;
+
+      document.body.removeChild(videoElement);
+      document.body.removeChild(videoElementCanvas);
+
+     var storage = {
+         'settings': settings,
+         'data': regs[0].getData() || data
+     };
+
+     return storage;
     }
 
     //PUBLIC FUNCTIONS - DEBUG

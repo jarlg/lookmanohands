@@ -7,7 +7,7 @@ function install() {
     console.log("Fresh install; setting storage defaults (trying to keep webgazer data).");
     // set storage defaults
     var defaults = {
-        "enabled": false,
+        "active": [],  // list of tabId
         "webgazerData": {
             "data": [],
             "settings": {}
@@ -28,18 +28,39 @@ function install() {
 // registers browserAction.onClick event and initializes the icon
 function startup() {
     console.log("from within startup");
-    chrome.storage.local.get("enabled", initIcon);
+    setIcon(false);
     chrome.browserAction.onClicked.addListener(browserActionClicked);
 }
 
 function browserActionClicked(tab) {
-    console.log("from within browser action");
-    chrome.storage.local.get("enabled", toggle);
-    
-    // inject scroller into page
-    console.log("injecting into page..");
-    chrome.tabs.executeScript(null, { file: "content_script.js" });
+    console.log("from within browser action, id: " + tab.id);
+
+    chrome.storage.local.get("active", function(obj) {
+        var l = obj.active.length;
+        var active = obj.active.filter(function(tabid) { return tabid !== tab.id; });
+
+        console.log(obj);
+
+        // if we're disactivating a tab
+        if (l > active.length) {
+            console.log("deactivating tab..");
+            setIcon(false);
+            chrome.tabs.sendMessage(tab.id, { type: "deactivate" });
+        }
+        // we're enabling a tab
+        else {
+            active.push(tab.id);
+            setIcon(true);
+
+            // inject scroller into page
+            console.log("activating tab..");
+            chrome.tabs.executeScript(null, { file: "content_script.js" });
+        }
+
+        chrome.storage.local.set({ "active": active });
+    });
 }
+
 function toggle(obj){
     if (!obj.enabled){
         chrome.storage.local.set({"enabled":true});
@@ -48,28 +69,20 @@ function toggle(obj){
         chrome.storage.local.set({"enabled":false});
         console.log("SET FALSE")
     }
-    initIcon(obj.enabled);
+    setIcon(obj.enabled);
 }
 
-function initIcon(enabled) {
-    // if the 'get' failed, e.g. if storage doesn't contain 'enabled
-    // we just consider the app as enabled, and 
-    if (chrome.runtime.lastError) {
-        chrome.storage.local.set({"enabled":false});
-        chrome.browserAction.setIcon({ path: "graphics/IconClosedSmall.png" });
+function setIcon(enabled) {
+    if (enabled) {
+            chrome.browserAction.setIcon({ path: "graphics/IconSmall.png" });
     }
     else {
-        if (enabled) {
-            chrome.browserAction.setIcon({ path: "graphics/IconSmall.png" });
-        }
-        else {
             chrome.browserAction.setIcon({ path: "graphics/IconClosedSmall.png" });
-        }
     }
 }
 
 function messageListener(request, sender, callback) {
-    if (request.method == "storeWebgazeData") {
+    if (request.method == "storeWebgazerData") {
         console.log("saving webgazer data to chrome.storage from recalibration");
         chrome.storage.local.set({ "webgazerData": request.payload });
     }
