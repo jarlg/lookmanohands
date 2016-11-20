@@ -4942,7 +4942,7 @@ var clm = {
 						if ('sobel' in weights) sobelInit = true;
 					} 
 					catch(err) {
-						alert("There was a problem setting up webGL programs, falling back to slightly slower javascript version. :(");
+						console.log("There was a problem setting up webGL programs, falling back to slightly slower javascript version. :(");
 						webglFi = undefined;
 						svmFi = new svmFilter();
 						svmFi.init(weights['raw'], biases['raw'], numPatches, patchSize, searchWindow);
