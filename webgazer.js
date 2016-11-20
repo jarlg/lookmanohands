@@ -10354,7 +10354,7 @@ if (typeof exports !== 'undefined') {
     /**
      * runs every available animation frame if webgazer is not paused
      */
-    var smoothingVals = new webgazer.util.DataWindow(20);
+    var smoothingVals = new webgazer.util.DataWindow(3);
     console.log("created smoothingVals");
     function loop() {
         var gazeData = getPrediction();
@@ -10430,7 +10430,7 @@ if (typeof exports !== 'undefined') {
         //third argument set to true so that we get event on 'capture' instead of 'bubbling'
         //this prevents a client using event.stopPropagation() preventing our access to the click
         document.addEventListener('click', clickListener, true);
-        document.addEventListener('mousemove', moveListener, true);
+      //  document.addEventListener('mousemove', moveListener, true);
     };
 
     /**

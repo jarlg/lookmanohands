@@ -20,7 +20,8 @@
     // webgazer.js needs this to eval a string into javascript
     "content_security_policy": "script-src 'self' 'unsafe-eval'",
 
-    // "icons": {},
+    "icons": {"48":"graphics/Icon48.png",
+              "128":"graphics/Icon128.png"},
 
     // "content_scripts": [{
     //     "matches": ["<all_urls>"],
