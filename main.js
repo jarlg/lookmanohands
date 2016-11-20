@@ -6,7 +6,7 @@ chrome.runtime.onMessage.addListener(messageListener);
 chrome.tabs.onActivated.addListener(function(activeInfo) {
     chrome.storage.local.get("active", function(obj) {
         // if activeInfo.tabId is an active tab, we should reactivate
-        if (obj.active.indexOf(activeInfo.tabId) >= 0) {
+        if (obj.active != null && obj.active.indexOf(activeInfo.tabId) >= 0) {
             initTab();
         }
         else {
@@ -119,29 +119,22 @@ function messageListener(request, sender, callback) {
         chrome.storage.local.set({ "webgazerData": request.payload });
     }
     else if (request.method == "speedSetting") {
-            console.log("saving speed setting");
+            console.log("saving speed setting to " + request.payload);
             chrome.storage.local.set({"speed": request.payload });
     }
     else if (request.method == "sensitivitySetting") {
             console.log("saving sensitivity setting");
             chrome.storage.local.set({"sensitivity": request.payload});
     }
-    else if (request.method == "getSpeedSetting"){
-            chrome.storage.local.get("speed", function(payload){
-                    console.log("sending speed setting");
-                    callback(payload);
-        });
-    }
-    else if (request.method == "getSensitivitySetting"){
-            chrome.storage.local.get("sensitivity", function(payload){
-                    console.log("sending sensitivity setting");
+    else if (request.method == "getSettings"){
+            chrome.storage.local.get(function(payload){
                     callback(payload);
         });
     }
     else if (request.method == "initTab") {
         chrome.storage.local.get(null, function(payload) {
                     callback(payload);
-                });
+        });
     }
 
     //return true for async responding
