@@ -3,7 +3,33 @@ chrome.runtime.onStartup.addListener(startup);     // run when chrome starts up
 
 chrome.runtime.onMessage.addListener(messageListener);
 
-chrome.tabs.onActivated.addListener(tabChangeHandler);
+chrome.tabs.onActivated.addListener(function(activeInfo) {
+    chrome.storage.local.get("active", function(obj) {
+        // if activeInfo.tabId is an active tab, we should reactivate
+        if (obj.active.indexOf(activeInfo.tabId) >= 0) {
+            initTab();
+        }
+        else {
+            setIcon(false);
+        }
+
+        // and deactivate other tabs
+        obj.active.forEach(function(tabid) {
+            if (tabid != activeInfo.tabId) {
+                chrome.tabs.sendMessage(tabid, { type: "deactivate" });
+            }
+        });
+    });
+});
+
+chrome.tabs.onUpdated.addListener(function(tabid, changeInfo, tab) {
+    chrome.storage.local.get("active", function(obj) {
+        // if current tab is active, when we follow a link we reinitialize
+        if (obj.active.indexOf(tabid) >= 0) {
+            initTab();
+        }
+    });
+});
 
 function install() {
     console.log("Fresh install; setting storage defaults (trying to keep webgazer data).");
@@ -110,22 +136,3 @@ function initTab(tabid) {
     setIcon(true);
     chrome.tabs.executeScript(null, { file: "content_script.js" });
 };
-
-function tabChangeHandler(activeInfo) {
-    chrome.storage.local.get("active", function(obj) {
-        // if activeInfo.tabId is an active tab, we should reactivate
-        if (obj.active.indexOf(activeInfo.tabId) >= 0) {
-            initTab();
-        }
-        else {
-            setIcon(false);
-        }
-
-        // and deactivate other tabs
-        obj.active.forEach(function(tabid) {
-            if (tabid != activeInfo.tabId) {
-                chrome.tabs.sendMessage(tabid, { type: "deactivate" });
-            }
-        });
-    });
-}
