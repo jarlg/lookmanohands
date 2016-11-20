@@ -3,6 +3,8 @@ chrome.runtime.onStartup.addListener(startup);     // run when chrome starts up
 
 chrome.runtime.onMessage.addListener(messageListener);
 
+chrome.tabs.onActivated.addListener(tabChangeHandler);
+
 function install() {
     console.log("Fresh install; setting storage defaults (trying to keep webgazer data).");
     // set storage defaults
@@ -50,11 +52,7 @@ function browserActionClicked(tab) {
         // we're enabling a tab
         else {
             active.push(tab.id);
-            setIcon(true);
-
-            // inject scroller into page
-            console.log("activating tab..");
-            chrome.tabs.executeScript(null, { file: "content_script.js" });
+            initTab();
         }
 
         chrome.storage.local.set({ "active": active });
@@ -95,4 +93,28 @@ function messageListener(request, sender, callback) {
 
     // return true for async responding
     return true;
+}
+
+function initTab(tabid) {
+    setIcon(true);
+    chrome.tabs.executeScript(null, { file: "content_script.js" });
+};
+
+function tabChangeHandler(activeInfo) {
+    chrome.storage.local.get("active", function(obj) {
+        // if activeInfo.tabId is an active tab, we should reactivate
+        if (obj.active.indexOf(activeInfo.tabId) >= 0) {
+            initTab();
+        }
+        else {
+            setIcon(false);
+        }
+
+        // and deactivate other tabs
+        obj.active.forEach(function(tabid) {
+            if (tabid != activeInfo.tabId) {
+                chrome.tabs.sendMessage(tabid, { type: "deactivate" });
+            }
+        });
+    });
 }

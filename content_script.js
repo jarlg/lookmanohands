@@ -32,6 +32,9 @@ s.onload = function() {
             if (request.type === "deactivate") {
                 window.postMessage({ type: "deactivate" }, "*");
             }
+            else if (request.type === "reactivate") {
+                window.postMessage({ type: "webgazerData", payload: payload }, "*");
+            }
         });
 
     }
