@@ -1,7 +1,7 @@
 var scroll_down_flag = 0;
 var scroll_up_flag = 0;
 var start_time;
-
+var speed, sensitivity;
 
 
 window.addEventListener("message", function(event) {
@@ -13,8 +13,8 @@ window.addEventListener("message", function(event) {
         console.log("loading webgazerData");
         console.log(event.data.payload);
         start(event.data.payload.webgazerData);
-        var speed = event.data.payload.speed;
-        var sensitivity = event.data.payload.sensitivity;
+        speed = event.data.payload.speed;
+        sensitivity = event.data.payload.sensitivity;
       }
       else if (event.data.type == "deactivate") {
         console.log("got deactivate signal..");
@@ -34,7 +34,8 @@ function start(webgazerData) {
             //If data and looking within screen boundaries
             if(data && (data.y < window.innerHeight) && (data.y > 0) && (data.x < window.innerHeight) && (data.x > 0)) 
             {
-                if(data.y > .75*window.innerHeight)
+                sens_perc = (100-sensitivity)/100;
+                if(data.y > sens_perc*window.innerHeight)
                 {
                     if(!scroll_down_flag)
                     {
@@ -49,12 +50,12 @@ function start(webgazerData) {
                     {
                         console.log("1 second passed; scrolling down");
                         console.log(window.scrollY);
-                        var x = window.innerHeight *0.25
-                        window.scrollBy(0, speed * (((data.y-window.innerHeight*0.75)/x)*10));
-                        console.log(((data.y-window.innerHeight*0.75)/x)*10);
+                        var x = window.innerHeight *(1-sens_perc)
+                        window.scrollBy(0, speed * (((data.y-window.innerHeight*sens_perc)/x)*10));
+                        console.log(((data.y-window.innerHeight*sens_perc)/x)*10);
                     }
                 }
-                else if(data.y < .25 * window.innerHeight)
+                else if(data.y < (1-sens_perc) * window.innerHeight)
                 {
                     if(!scroll_up_flag)
                     {
@@ -67,8 +68,8 @@ function start(webgazerData) {
                     else if(clock-start_time >=100)
                     {
                         console.log("1 second passed; scrolling up");
-                         var x = window.innerHeight *0.25
-                        window.scrollBy(0, - speed * (((window.innerHeight*0.25- data.y)/x)*10));
+                         var x = window.innerHeight *(1-sens_perc)
+                        window.scrollBy(0, - speed * (((window.innerHeight*(1-sens_perc)- data.y)/x)*10));
                     }
                 else{ //If look somewhere between thresholds, clear flags
                     if(scroll_down_flag | scroll_up_flag)
