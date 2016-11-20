@@ -58,8 +58,4 @@ window.onload = function() {
         }
     }
     setTimeout(checkIfReady,100);
-
-    document.getElementById("stopcalibration").addEventListener("click", function(e) {
-        webgazer.saveAndQuit();
-    });
 }

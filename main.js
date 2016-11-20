@@ -49,6 +49,12 @@ function install() {
         if (storage.webgazerData != null) {
             defaults.webgazerData = storage.webgazerData;
         }
+        if (storage.speed != null) {
+            defaults.speed = storage.speed;
+        }
+        if (storage.sensitivity != null) {
+            defaults.sensitivity = storage.sensitivity;
+        }
 
         chrome.storage.local.set(defaults);
         startup();
@@ -96,17 +102,6 @@ function browserActionClicked(tab) {
 
         chrome.storage.local.set({ "active": active });
     });
-}
-
-function toggle(obj){
-    if (!obj.enabled){
-        chrome.storage.local.set({"enabled":true});
-        console.log("SET TRUE")
-    } else {
-        chrome.storage.local.set({"enabled":false});
-        console.log("SET FALSE")
-    }
-    setIcon(obj.enabled);
 }
 
 function setIcon(enabled) {

@@ -42,17 +42,13 @@ function start(webgazerData) {
                         if(scroll_up_flag)    //Unset scroll up, eyes moved down
                             scroll_up_flag = 0;
                         scroll_down_flag = 1;
-                        console.log("set scroll down flag");
 
                         start_time = clock;
                     }
                     else if(clock-start_time >= 100) /*if beyond threshold for >= a second */
                     {
-                        console.log("1 second passed; scrolling down");
-                        console.log(window.scrollY);
                         var x = window.innerHeight *(1-sens_perc)
                         window.scrollBy(0, speed * (((data.y-window.innerHeight*sens_perc)/x)*10));
-                        console.log(((data.y-window.innerHeight*sens_perc)/x)*10);
                     }
                 }
                 else if(data.y < (1-sens_perc) * window.innerHeight)
@@ -62,12 +58,10 @@ function start(webgazerData) {
                         if(scroll_down_flag)    //Unset scroll down, eyes moved up
                             scroll_down_flag = 0;
                         scroll_up_flag = 1;
-                        console.log("set scroll up flag");
                         start_time = clock;
                     }
                     else if(clock-start_time >=100)
                     {
-                        console.log("1 second passed; scrolling up");
                          var x = window.innerHeight *(1-sens_perc)
                         window.scrollBy(0, - speed * (((window.innerHeight*(1-sens_perc)- data.y)/x)*10));
                     }
@@ -132,7 +126,5 @@ var width = 320;
         }
     }
     setTimeout(checkIfReady,100);
-
-console.log(webgazer.getRegression())
 }
 

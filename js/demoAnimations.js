@@ -74,6 +74,7 @@ $(document).on("click","body",function() {
             $("#hand").animate({left: "86%"});
             break;
         case 20:
+            webgazer.saveAndQuit();
             window.location.href = "success.html";
     }
     if (clickCount > 0){
